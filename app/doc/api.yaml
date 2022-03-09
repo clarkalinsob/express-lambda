@@ -22,10 +22,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: object
-                    properties:
-                      url:
-                        type: string
+                    $ref: '#/components/schemas/image'
         '422':
           description: UnprocessableEntity
           content:
@@ -119,7 +116,10 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/image'
+                    type: object
+                    properties:
+                      message:
+                        type: string
         '404':
           description: Not found
           content:
@@ -140,7 +140,7 @@ components:
       properties:
         id:
           type: string
-        url:
+        location:
           type: string
     error404:
       type: object
