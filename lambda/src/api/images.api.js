@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const DynamoService = require('../services/dynamo.service');
+const S3Service = require('../services/s3.service');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -36,6 +37,7 @@ router.delete('/:key', async (req, res, next) => {
   try {
     const { key } = req.params;
 
+    await S3Service.deleteFile(key);
     await DynamoService.deleteImage(key);
 
     const data = {

@@ -15,6 +15,14 @@ class S3Service {
 
     return s3.upload(uploadParams).promise();
   }
+  static deleteFile(key) {
+    const deleteParams = {
+      Bucket: bucketName,
+      Key: key,
+    };
+
+    return s3.deleteObject(deleteParams).promise();
+  }
 }
 
 module.exports = S3Service;
