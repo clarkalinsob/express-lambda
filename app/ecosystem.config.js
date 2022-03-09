@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'app',
-      script: 'server.js',
+      script: 'node server.js',
       instances: 'max',
       max_memory_restart: '256M',
       env: {
