@@ -1,0 +1,183 @@
+paths:
+  '/upload':
+    post:
+      tags:
+        - Upload
+      summary: Upload image
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: base64
+      responses:
+        '200':
+          description: Ok, Upload success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+        '422':
+          description: UnprocessableEntity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error422'
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error500'
+
+  '/images':
+    get:
+      tags:
+        - Image
+      summary: Get images
+      responses:
+        '200':
+          description: Ok, get images success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/image'
+                  count:
+                    type: integer
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error500'
+
+  '/images/{key}':
+    get:
+      tags:
+        - Image
+      summary: Get image
+      parameters:
+        - name: key
+          in: path
+          description: Image key
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok, get image success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/image'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error500'
+    delete:
+      tags:
+        - Image
+      summary: Delete image
+      parameters:
+        - name: key
+          in: path
+          description: Image key
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok, delete image success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/image'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error500'
+
+components:
+  schemas:
+    image:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+    error404:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            statusCode:
+              type: integer
+            message:
+              type: string
+          example:
+            statusCode: 404
+            message: NotFound
+    error422:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            statusCode:
+              type: integer
+            message:
+              type: string
+          example:
+            statusCode: 422
+            message: UnprocessableEntity
+    error500:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            statusCode:
+              type: integer
+            message:
+              type: string
+          example:
+            statusCode: 500
+            message: InternalServerError
