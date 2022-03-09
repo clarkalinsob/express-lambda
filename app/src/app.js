@@ -5,6 +5,6 @@ const swaggerDocs = require('./config/swagger.config');
 
 const app = express();
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 module.exports = app;
