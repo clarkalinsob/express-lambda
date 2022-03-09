@@ -1,0 +1,27 @@
+service: express-lambda
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    BUCKET_NAME:
+    BUCKET_REGION:
+    ACCESS_KEY_ID:
+    SECRET_ACCESS_KEY:
+    DYN_REGION:
+    DYN_ACCESS_KEY_ID:
+    DYN_SECRET_ACCESS_KEY:
+functions:
+  express-lambda-api:
+    handler: handler.handler
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
